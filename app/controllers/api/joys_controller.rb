@@ -11,14 +11,15 @@ class Api::JoysController < ApplicationController
   end
 
   def create
-    @joys = Joy.new(
+    @joy = Joy.new(
       body: params[:body],
       visibility: params[:visibility],
+      user_id: current_user.id,
     )
-    if @joys.save
-      render "index.json.jb"
+    if @joy.save
+      render "show.json.jb"
     else
-      render json: { message: "Didn't Work" }
+      render json: { error: @joy.errors.full_messages }
     end
   end
 
@@ -28,7 +29,12 @@ class Api::JoysController < ApplicationController
 
     @joy.body = params[:body] || @joy.body
     @joy.visibility = params[:visibility] || @joy.visibility
+    @joy.user_id = params[:user_id] || @joy.user_id ##only for testing/building
 
-    @joy.save
+    if @joy.save
+      render "show.json.jb"
+    else
+      render json: { error: @joy.errors.full_messages }
+    end
   end
 end
