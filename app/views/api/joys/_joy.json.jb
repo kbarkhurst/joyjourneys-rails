@@ -3,6 +3,7 @@
   body: joy.body,
   visibility: joy.visibility,
   user_id: joy.user_id,
+  username: joy.user.username,
   created_at: joy.created_at,
   updated_at: joy.updated_at,
 }

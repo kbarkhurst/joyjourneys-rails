@@ -10,7 +10,7 @@ Rails.application.routes.draw do
     patch "/joys/:id" => "joys#update"
 
     post "/users" => "users#create"
-    post "/users" => "users#show"
+    get "/users/:id" => "users#show"
 
     post "/sessions" => "sessions#create"
   end
