@@ -1,0 +1,3 @@
+@joys.map do |joy|
+  render partial: "joy.json.jb", locals: { joy: joy }
+end

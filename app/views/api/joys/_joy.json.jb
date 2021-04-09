@@ -1,0 +1,5 @@
+{
+  id: joy.id,
+  body: joy.body,
+  visibility: joy.visibility,
+}
