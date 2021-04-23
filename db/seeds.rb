@@ -9,7 +9,7 @@ User.create(username: "Patricia", email: "patricia@example.com", password: "pass
 User.create(username: "Kelly", email: "kelly@example.com", password: "password")
 require "csv"
 csv_text = File.read(Rails.root.join("lib", "seeds", "patricias_joys.csv"))
-csv = CSV.parse(csv_text, :headers => true, :encoding => "ISO-8859-1")
+csv = CSV.parse(csv_text, :headers => true, :encoding => "utf-8")
 csv.each do |row|
   t = Joy.new
   t.body = row["body"]
