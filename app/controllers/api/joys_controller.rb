@@ -3,7 +3,7 @@ class Api::JoysController < ApplicationController
     if params[:keyword_search]
       @joys = Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%")
     else
-      @joys = Joy.all
+      @joys = Joy.all.limit(30)
     end
     #     # @joys = Joy.find_by(body: search)
     # @joys = Joy.search(params[:keyword_search])
