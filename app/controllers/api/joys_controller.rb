@@ -1,6 +1,13 @@
 class Api::JoysController < ApplicationController
   def index
-    @joys = Joy.all
+    if params[:keyword_search]
+      @joys = Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%")
+    else
+      @joys = Joy.all
+    end
+    #     # @joys = Joy.find_by(body: search)
+    # @joys = Joy.search(params[:keyword_search])
+    # @joys = Joy.all
     render "index.json.jb"
   end
 
@@ -36,5 +43,10 @@ class Api::JoysController < ApplicationController
     else
       render json: { error: @joy.errors.full_messages }
     end
+  end
+
+  def keyword_search
+    @joys = Joy.where("body ILIKE ?", "%" + keyword + "%")
+    render "index.json.jb"
   end
 end
