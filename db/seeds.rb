@@ -5,8 +5,9 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+User.create(name: "Patricia", email: "patricia@example.com", password: "password")
+User.create(name: "Kelly", email: "kelly@example.com", password: "password")
 require "csv"
-
 csv_text = File.read(Rails.root.join("lib", "seeds", "patricias_joys.csv"))
 csv = CSV.parse(csv_text, :headers => true, :encoding => "ISO-8859-1")
 csv.each do |row|
