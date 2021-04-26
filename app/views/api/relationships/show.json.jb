@@ -1,0 +1,1 @@
+render partial: "relationship.json.jb", locals: { relationship: @relationship }

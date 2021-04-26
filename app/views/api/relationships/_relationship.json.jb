@@ -1,0 +1,7 @@
+{
+  id: relationship.id,
+  inspirationfor_id: relationship.inspirationfor_id,
+  inspiredby_id: relationship.inspiredby_id,
+  created_at: relationship.created_at,
+  updated_at: relationship.updated_at,
+}

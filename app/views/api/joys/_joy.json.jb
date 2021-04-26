@@ -2,6 +2,8 @@
   id: joy.id,
   body: joy.body,
   visibility: joy.visibility,
+  # parent_id: joy.parent_id,
+  # inspired_ids: joy.inspired_ids,
   user_id: joy.user_id,
   username: joy.user.username,
   created_at: joy.created_at,

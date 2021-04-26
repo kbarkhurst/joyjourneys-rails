@@ -11,6 +11,9 @@ Rails.application.routes.draw do
     post "/joys/" => "joys#create"
     patch "/joys/:id" => "joys#update"
 
+    get "/relationships" => "relationships#index"
+    post "/relationships" => "relationships#create"
+
     post "/users" => "users#create"
     get "/users/:id" => "users#show"
 
