@@ -14,10 +14,13 @@ class Api::UsersController < ApplicationController
   end
 
   def show
-    if current_user
-      render "show.json.jb"
-    else
-      render json: { errors: user.errors.full_messages }, status: :bad_request
-    end
+    user_id = params[:id]
+    @user = User.find(user_id)
+    render "show.json.jb"
+    # if current_user
+      # render "show.json.jb"
+    # else
+    #   render json: { errors: current_user.errors.full_messages }, status: :bad_request
+    # end
   end
 end

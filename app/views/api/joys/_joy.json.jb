@@ -8,4 +8,6 @@
   username: joy.user.username,
   created_at: joy.created_at,
   updated_at: joy.updated_at,
+  inspiredbys: joy.inspiredbys,
+  inspirationfors: joy.inspirationfors,
 }
