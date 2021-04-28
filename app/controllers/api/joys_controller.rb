@@ -19,15 +19,36 @@ class Api::JoysController < ApplicationController
   end
 
   def create
-    @joy = Joy.new(
-      body: params[:body],
-      visibility: params[:visibility],
-      user_id: current_user.id,
-    )
-    if @joy.save
-      render "show.json.jb"
+    if params[:inspirationfor_id]
+      @joy = Joy.new(
+        body: params[:body],
+        visibility: params[:visibility],
+        user_id: current_user.id,
+      )
+      
+      if @joy.save
+        puts "joy saved"
+        puts  @joy.id
+        puts params[:inspirationfor_id]
+        Relationship.create!([
+              inspiredby_id: @joy.id,
+              inspirationfor_id: params[:inspirationfor_id],]
+            )
+        render "show.json.jb"
+      else
+        render json: { error: @joy.errors.full_messages }
+      end
     else
-      render json: { error: @joy.errors.full_messages }
+      @joy = Joy.new(
+        body: params[:body],
+        visibility: params[:visibility],
+        user_id: current_user.id,
+      )
+      if @joy.save
+        render "show.json.jb"
+      else
+        render json: { error: @joy.errors.full_messages }
+      end
     end
   end
 
