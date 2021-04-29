@@ -1,1 +1,3 @@
 render partial: "joy.json.jb", locals: { joy: @joy }
+#variable the first render partial above
+# Then add a new key with that variable, and that key will render the joy partial for each inspired by, showing us the username. Inspiredbys and Inspirationfors Maps
