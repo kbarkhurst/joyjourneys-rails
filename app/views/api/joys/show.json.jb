@@ -1,3 +1,11 @@
-render partial: "joy.json.jb", locals: { joy: @joy }
+joy = render partial: "joy.json.jb", locals: { joy: @joy }
+
+joy[:parents] = @joy.parents.map do |parent|
+  render partial: "/api/joys/joy", locals: { parent: parent, joy: @joy }
+end
+joy[:inspiredbys] = @joy.inspiredbys.map do |inspiredby|
+  render partial: "/api/joys/joy", locals: { inspiredby: inspiredby, joy: @joy }
+end
+joy
 #variable the first render partial above
-# Then add a new key with that variable, and that key will render the joy partial for each inspired by, showing us the username. Inspiredbys and Inspirationfors Maps
+# Then add a new key with that variable, and that key will render the joy partial for each inspired by, showing us the username. Inspiredbys and parents Maps

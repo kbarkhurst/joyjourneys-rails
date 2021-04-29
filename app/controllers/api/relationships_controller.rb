@@ -2,8 +2,8 @@ class Api::RelationshipsController < ApplicationController
   def index
     if params[:inspiredby_id]
       @relationships = Relationship.where(inspiredby_id: params[:inspiredby_id])
-    elsif params[:inspirationfor_id]
-      @relationships = Relationship.where(inspirationfor_id: params[:inspirationfor_id])
+    elsif params[:parent_id]
+      @relationships = Relationship.where(parent_id: params[:parent_id])
     else
       @relationships = Relationship.all
     end
@@ -13,7 +13,7 @@ class Api::RelationshipsController < ApplicationController
   def create
     @relationship = Relationship.new(
       inspiredby_id: params[:inspiredby_id],
-      inspirationfor_id: params[:inspirationfor_id],
+      parent_id: params[:parent_id],
     )
     if @relationship.save
       render "show.json.jb"

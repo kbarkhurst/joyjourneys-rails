@@ -1,6 +1,11 @@
 class Api::JoysController < ApplicationController
   def index
+    # if two params
+    #   @joys = Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "user_id")
+    #   # Recipe.where("chef LIKE ? AND prep_time = ?", "%Ray%", 10)
+    # end
     if params[:keyword_search]
+      # @joys = Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", user_id)
       @joys = Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%") 
     else
       @joys = Joy.all.limit(30) #otherwise loads too long
@@ -19,7 +24,7 @@ class Api::JoysController < ApplicationController
   end
 
   def create
-    if params[:inspirationfor_id]
+    if params[:parent_id]
       @joy = Joy.new(
         body: params[:body],
         visibility: params[:visibility],
@@ -29,10 +34,10 @@ class Api::JoysController < ApplicationController
       if @joy.save
         puts "joy saved"
         puts  @joy.id
-        puts params[:inspirationfor_id]
+        puts params[:parent_id]
         Relationship.create!([
               inspiredby_id: @joy.id,
-              inspirationfor_id: params[:inspirationfor_id],]
+              parent_id: params[:parent_id],]
             )
         render "show.json.jb"
       else

@@ -1,7 +1,7 @@
 {
   id: relationship.id,
-  # inspirationfor_id: relationship.inspirationfor_id,
-  inspirationfor_username: "testname",
+  # parent_id: relationship.parent_id,
+  parent_username: "testname",
   inspiredby_id: relationship.inspiredby_id,
   # inspiredby_username: "testname",
   created_at: relationship.created_at,
