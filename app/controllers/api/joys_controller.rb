@@ -36,7 +36,7 @@ class Api::JoysController < ApplicationController
         puts  @joy.id
         puts params[:parent_id]
         Relationship.create!([
-              inspiredby_id: @joy.id,
+              inspired_id: @joy.id,
               parent_id: params[:parent_id],]
             )
         render "show.json.jb"
@@ -72,8 +72,8 @@ class Api::JoysController < ApplicationController
     end
   end
 
-  def keyword_search
-    @joys = Joy.where("body ILIKE ?", "%" + keyword + "%")
-    render "index.json.jb"
-  end
+  # def keyword_search
+  #   @joys = Joy.where("body ILIKE ?", "%" + keyword + "%")
+  #   render "index.json.jb"
+  # end
 end

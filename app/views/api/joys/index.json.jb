@@ -1,3 +1,10 @@
 @joys.map do |joy|
-  render partial: "joy.json.jb", locals: { joy: joy }
+  j = render partial: "joy.json.jb", locals: { joy: joy }
+  j[:parents] = joy.parents.map do |parent|
+    render partial: "/api/joys/joy", locals: { parent: parent, joy: joy }
+  end
+  j[:inspireds] = joy.inspireds.map do |inspired|
+    render partial: "/api/joys/joy", locals: { inspired: inspired, joy: joy }
+  end
+  j
 end
