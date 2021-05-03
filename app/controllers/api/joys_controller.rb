@@ -1,14 +1,45 @@
 class Api::JoysController < ApplicationController
   def index
     if params[:keyword_search] && params[:user_id]
-      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), items: 25)
+      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), page: params[:page], items: 3)
     elsif params[:keyword_search]
-      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), items: 25) 
+      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 3) 
     else
-      @pagy, @joys = pagy(Joy.all, items: 25) #otherwise loads too long Joy.all.limit(30)
+      @pagy, @joys = pagy(Joy.all, items: 5, page: params[:page]) #otherwise loads too long Joy.all.limit(30)
     end
     if @joys.length > 0
-      render "index.json.jb"
+      @joydata = @joys.map do |joy|
+        j = { id: joy.id,
+        body: joy.body,
+        visibility: joy.visibility,
+        user_id: joy.user_id,
+        username: joy.user.username,
+        created_at: joy.created_at,
+        updated_at: joy.updated_at,
+        }
+        j[:parents] = joy.parents.map do |parent|
+          par = {id: parent.id,
+          body: parent.body,
+          visibility: parent.visibility,
+          user_id: parent.user_id,  
+          username: parent.user.username,
+          created_at: parent.created_at,
+          updated_at: parent.updated_at}
+        end
+        j[:inspireds] = joy.inspireds.map do |inspired|
+          insp = {id: inspired.id,
+            body: inspired.body,
+            visibility: inspired.visibility,
+            user_id: inspired.user_id,
+            username: inspired.user.username,
+            created_at: inspired.created_at,
+            updated_at: inspired.updated_at}
+        end
+        j
+      end
+      # render :json => { joys: render_to_string(partial: "index.json.jb"), pagyData: @pagy }
+      render :json => { joys: @joydata, pagyData: @pagy }
+      # render "index.json.jb"
     else
       render json: {message: "There are no search results" } 
     end
