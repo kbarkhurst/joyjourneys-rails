@@ -1,4 +1,7 @@
 class ApplicationController < ActionController::Base
+
+  include Pagy::Backend
+  
   protect_from_forgery with: :exception, if: -> { request.format.html? }
 
   def current_user

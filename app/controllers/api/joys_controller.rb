@@ -1,14 +1,11 @@
 class Api::JoysController < ApplicationController
   def index
-    # if two params
-    #   @joys = Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "user_id")
-    #   # Recipe.where("chef LIKE ? AND prep_time = ?", "%Ray%", 10)
-    # end
-    if params[:keyword_search]
-      # @joys = Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", user_id)
-      @joys = Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%") 
+    if params[:keyword_search] && params[:user_id]
+      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), items: 25)
+    elsif params[:keyword_search]
+      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), items: 25) 
     else
-      @joys = Joy.all.limit(30) #otherwise loads too long
+      @pagy, @joys = pagy(Joy.all, items: 25) #otherwise loads too long Joy.all.limit(30)
     end
     if @joys.length > 0
       render "index.json.jb"
