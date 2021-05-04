@@ -15,10 +15,29 @@ csv.each do |row|
   t.body = row["body"]
   t.user_id = 1
   t.visibility = true
-  t.created_at = row["date"]
-  t.updated_at = row["date"]
+  t.created_at = Date.strptime(row[0], "%e-%b-%y")
+  t.updated_at = Date.strptime(row[0], "%e-%b-%y")
+  # t.save(touch: false)
   t.save
+  # t.update(:created_at => row["date"])
+  # t.update(:updated_at => row["date"])
+  
   puts "#{t.body}, saved"
 end
+# csv.each do |row|
+#   t = Joy.update_all
+#   t.created_at = row["date"]
+#   t.updated_at = row["date"]
+#   t.save(touch: false)
+# end
+
+# csv.each do |row|
+#   t = Joy.
+#   t.created_at = row["date"]
+#   t.updated_at = row["date"]
+# end
+
+
+
 
 

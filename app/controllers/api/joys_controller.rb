@@ -1,11 +1,11 @@
 class Api::JoysController < ApplicationController
   def index
     if params[:keyword_search] && params[:user_id]
-      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), page: params[:page], items: 3)
+      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), page: params[:page], items: 30)
     elsif params[:keyword_search]
-      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 3) 
+      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 30) 
     else
-      @pagy, @joys = pagy(Joy.all, items: 5, page: params[:page]) #otherwise loads too long Joy.all.limit(30)
+      @pagy, @joys = pagy(Joy.all, items: 30, page: params[:page]) #otherwise loads too long Joy.all.limit(30)
     end
     if @joys.length > 0
       @joydata = @joys.map do |joy|
@@ -37,8 +37,7 @@ class Api::JoysController < ApplicationController
         end
         j
       end
-      # render :json => { joys: render_to_string(partial: "index.json.jb"), pagyData: @pagy }
-      render :json => { joys: @joydata, pagyData: @pagy }
+      render :json => { joys: @joydata, pagy: @pagy }
       # render "index.json.jb"
     else
       render json: {message: "There are no search results" } 
