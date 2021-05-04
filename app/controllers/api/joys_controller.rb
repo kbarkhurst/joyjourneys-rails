@@ -99,6 +99,13 @@ class Api::JoysController < ApplicationController
     end
   end
 
+  def viewbyyear 
+    years = Joy.all.map(&:created_at).map(&:year).uniq
+    years
+    # Joy.find_by(:all, :conditions =>["year(created_at) BETWEEN ? AND ? ", '2018-01-01','2018-12-31'])
+    # Joy.find_by(:all, :conditions =>["date(created_at) BETWEEN ? AND ? ", '2015-01-01','2018-12-31'])
+    # Joy.where(created_at: 2018.all_day)
+  end
   # def keyword_search
   #   @joys = Joy.where("body ILIKE ?", "%" + keyword + "%")
   #   render "index.json.jb"
