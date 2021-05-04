@@ -15,7 +15,8 @@ Rails.application.routes.draw do
     post "/relationships" => "relationships#create"
 
     post "/users" => "users#create"
-    get "/users/:id" => "users#show"
+    get "/users" => "users#show"
+    # get "/users/:id" => "users#show"
 
     post "/sessions" => "sessions#create"
   end
