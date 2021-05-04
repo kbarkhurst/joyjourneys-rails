@@ -1,6 +1,10 @@
 class Api::JoysController < ApplicationController
   def index
-    if params[:keyword_search] && params[:user_id]
+    if params[:year] && params[:keyword_search]
+      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ? AND EXTRACT(YEAR FROM created_at) = ?", "%" + params[:keyword_search] + "%", params[:user_id], params[:year]), page: params[:page], items: 30)
+    elsif params[:year]
+      @pagy, @joys = pagy(Joy.where("user_id = ? AND EXTRACT(YEAR FROM created_at) = ?", params[:user_id], params[:year]), page: params[:page], items: 30)
+    elsif params[:keyword_search] && params[:user_id]
       @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), page: params[:page], items: 30)
     elsif params[:keyword_search]
       @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 30) 
@@ -100,8 +104,9 @@ class Api::JoysController < ApplicationController
   end
 
   def viewbyyear 
-    years = Joy.all.map(&:created_at).map(&:year).uniq
-    years
+    @years = Joy.all.where("user_id = ?", params[:user_id]).map(&:created_at).map(&:year).uniq
+
+    render :json => { years: @years }
     # Joy.find_by(:all, :conditions =>["year(created_at) BETWEEN ? AND ? ", '2018-01-01','2018-12-31'])
     # Joy.find_by(:all, :conditions =>["date(created_at) BETWEEN ? AND ? ", '2015-01-01','2018-12-31'])
     # Joy.where(created_at: 2018.all_day)

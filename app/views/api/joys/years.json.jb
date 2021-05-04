@@ -1,0 +1,3 @@
+@years.map do |year|
+  year
+end
