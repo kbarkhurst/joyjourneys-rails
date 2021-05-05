@@ -6,10 +6,12 @@ class Api::JoysController < ApplicationController
       @pagy, @joys = pagy(Joy.where("user_id = ? AND EXTRACT(YEAR FROM created_at) = ?", params[:user_id], params[:year]), page: params[:page], items: 30)
     elsif params[:keyword_search] && params[:user_id]
       @pagy, @joys = pagy(Joy.where("body ILIKE ? AND user_id = ?", "%" + params[:keyword_search] + "%", params[:user_id]), page: params[:page], items: 30)
+    elsif params[:visibility] == "true" && params[:keyword_search]
+      @pagy, @joys = pagy(Joy.where("body ILIKE ? AND visibility = ?", "%" + params[:keyword_search] + "%",true), page: params[:page], items: 30)
     elsif params[:keyword_search]
-      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 30) 
+      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 5) 
     else
-      @pagy, @joys = pagy(Joy.all, items: 30, page: params[:page]) #otherwise loads too long Joy.all.limit(30)
+      @pagy, @joys = pagy(Joy.all, items: 1, page: params[:page]) #otherwise loads too long Joy.all.limit(30)
     end
     if @joys.length > 0
       @joydata = @joys.map do |joy|
@@ -72,7 +74,7 @@ class Api::JoysController < ApplicationController
             )
         render "show.json.jb"
       else
-        render json: { error: @joy.errors.full_messages }
+        render json: { error: @joy.errors.full_messages }, status: 406
       end
     else
       @joy = Joy.new(
@@ -83,7 +85,7 @@ class Api::JoysController < ApplicationController
       if @joy.save
         render "show.json.jb"
       else
-        render json: { error: @joy.errors.full_messages }
+        render json: { error: @joy.errors.full_messages }, status: 406
       end
     end
   end
