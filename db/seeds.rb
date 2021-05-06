@@ -12,7 +12,7 @@ csv_text = File.read(Rails.root.join("lib", "seeds", "patricia_joy_journey.csv")
 csv = CSV.parse(csv_text, :headers => true, :encoding => "utf-8")
 csv.each do |row|
   t = Joy.new
-  t.body = row["body"]
+  t.body = row[1]
   t.user_id = 1
   t.visibility = true
   t.created_at = Date.strptime(row[0], "%e-%b-%y")
@@ -20,18 +20,18 @@ csv.each do |row|
   t.save
   puts "#{t.body}, #{t.created_at} saved"
 end
-csv_text = File.read(Rails.root.join("lib", "seeds", "patricia_joy_journey2.csv"))
-csv = CSV.parse(csv_text, :headers => true, :encoding => "utf-8")
-csv.each do |row|
-  t = Joy.new
-  t.body = row["body"]
-  t.user_id = 1
-  t.visibility = true
-  t.created_at = Date.strptime(row[0], "%e-%b-%y")
-  t.updated_at = Date.strptime(row[0], "%e-%b-%y")
-  t.save
-  puts "#{t.body}, #{t.created_at} saved"
-end
+# csv_text = File.read(Rails.root.join("lib", "seeds", "patricia_joy_journey2.csv"))
+# csv = CSV.parse(csv_text, :headers => true, :encoding => "utf-8")
+# csv.each do |row|
+#   t = Joy.new
+#   t.body = row["body"]
+#   t.user_id = 1
+#   t.visibility = true
+#   t.created_at = Date.strptime(row[0], "%e-%b-%y")
+#   t.updated_at = Date.strptime(row[0], "%e-%b-%y")
+#   t.save
+#   puts "#{t.body}, #{t.created_at} saved"
+# end
 
 
 
