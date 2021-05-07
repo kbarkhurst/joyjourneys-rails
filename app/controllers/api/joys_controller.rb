@@ -9,9 +9,9 @@ class Api::JoysController < ApplicationController
     elsif params[:visibility] == "true" && params[:keyword_search]
       @pagy, @joys = pagy(Joy.where("body ILIKE ? AND visibility = ?", "%" + params[:keyword_search] + "%",true), page: params[:page], items: 30)
     elsif params[:keyword_search]
-      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 5) 
+      @pagy, @joys = pagy(Joy.where("body ILIKE ?", "%" + params[:keyword_search] + "%"), page: params[:page],items: 30) 
     else
-      @pagy, @joys = pagy(Joy.all, items: 1, page: params[:page]) #otherwise loads too long Joy.all.limit(30)
+      @pagy, @joys = pagy(Joy.all, items: 30, page: params[:page])
     end
     if @joys.length > 0
       @joydata = @joys.map do |joy|
